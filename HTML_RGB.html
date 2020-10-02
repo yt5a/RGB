@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ja" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <style type="text/css">
+    </style>
+  </head>
+  <body>
+    <canvas id="canvas"></canvas>
+    <script type="text/javascript">
+    // canvas関連のオブジェクト
+    const canvas = document.getElementById("canvas")
+    const ctx = canvas.getContext("2d")
+
+    // 任意の画像読み込み
+    let image = new Image()
+    image.src = "one.png"
+
+    // 読み込み完了時のイベント
+    image.onload = () => {
+        canvas.width = image.width
+        canvas.height = image.height
+        ctx.drawImage(image, 0, 0, canvas.width, canvas.height)
+        // canvas描画後、画像の処理を実行
+        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        const data      = imageData.data;
+        console.log("b")
+    }
+    </script>
+  </body>
+</html>
