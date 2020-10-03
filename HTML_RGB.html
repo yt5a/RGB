@@ -39,17 +39,13 @@
         console.log(image.height)
         console.log(src.data.length)
 
-        for (let i = 0; i < src.data.length; i += 8) {
+        for (let i = 0; i < src.data.length; i += 1) {
+          if (5000<=i&&i<=6000) {
           for (let ii = 0; ii < 3; ii +=1) {
             dst.data[i+ii] = src.data[i+ii]
-            dst.data[i+ii+4] = src.data[i+ii]
-            dst.data[i+ii+image.width*4] = src.data[i+ii]
-            dst.data[i+ii+4+image.width*4] = src.data[i+ii]
           }
           dst.data[i + 3] = src.data[i + 3]
-          dst.data[i + 7] = src.data[i + 7]
-          dst.data[i + 11] = src.data[i + 11]
-        }
+        }}
         ctx.putImageData(dst, 0, 0)
         console.log(dst.data[0],dst.data[1],dst.data[2])
         console.log(cc)
