@@ -38,7 +38,7 @@
 
         for (let i = 0; i < src.data.length; i += 4) {
           for (let ii = 0; ii < 3; ii +=1) {
-            dst.data[i+ii] = Math.round(src.data[i+ii]/10)*10
+            dst.data[i+ii] = Math.round(src.data[i+ii]/30)*30
           }
           dst.data[i + 3] = src.data[i + 3]
         }
