@@ -33,7 +33,11 @@
         let dst = ctx.createImageData(image.width, image.height)
 
         for (let i = 0; i < src.data.length; i += 4) {
-          dst.data[i] = src.data[i]+(255-src.data[i])/2
+          if (dst.data[i]==0) {
+
+          }else{
+            dst.data[i] = 255
+          }
           dst.data[i + 1] = src.data[i + 1]+(255-src.data[i+1])/2
           dst.data[i + 2] = src.data[i + 2]+(255-src.data[i+2])/2
           dst.data[i + 3] = src.data[i + 3]
