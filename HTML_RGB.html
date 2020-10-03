@@ -40,7 +40,8 @@
           for (let ii = 0; ii < 3; ii +=1) {
             dst.data[i+ii] = src.data[i+ii]
             dst.data[i+ii+4] = src.data[i+ii]
-            dst.data[i+ii+8] = src.data[i+ii]
+            dst.data[i+ii+image.width] = src.data[i+ii]
+            dst.data[i+ii+4+image.width] = src.data[i+ii]
           }
           dst.data[i + 3] = src.data[i + 3]
           dst.data[i + 7] = src.data[i + 7]
