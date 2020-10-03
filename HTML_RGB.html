@@ -10,6 +10,8 @@
     <canvas id="canvas"></canvas>
     <canvas id="sub_canvas"></canvas>
     <script type="text/javascript">
+    num=Math.round( Math.random()*255);
+    comsole.log(num)
     // canvas関連のオブジェクト
     const canvas = document.getElementById("canvas")
     const s_canvas = document.getElementById("sub_canvas")
@@ -34,7 +36,7 @@
 
         for (let i = 0; i < src.data.length; i += 4) {
           for (let ii = 0; ii < 3; ii +=1) {
-            if (dst.data[i+ii]<=61) {
+            if (dst.data[i+ii]<=num) {
               dst.data[i+ii] = 0
             }else{
               dst.data[i+ii] = 255
