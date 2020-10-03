@@ -40,7 +40,7 @@
         console.log(src.data.length)
 
         for (let i = 0; i < src.data.length; i += 1) {
-          if (!5000 < i&&i < 6000) {
+          if (!5000 < i&&!i < 6000) {
           for (let ii = 0; ii < 3; ii +=1) {
             dst.data[i+ii] = src.data[i+ii]
           }
