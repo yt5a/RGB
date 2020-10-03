@@ -35,6 +35,9 @@
         // canvas描画後、画像の処理を実行
         let src = ctx.getImageData(0, 0, image.width, image.height)
         let dst = ctx.createImageData(image.width, image.height)
+        console.log(image.width)
+        console.log(image.height)
+        console.log(src.data.length)
 
         for (let i = 0; i < src.data.length; i += 12) {
           for (let ii = 0; ii < 3; ii +=1) {
