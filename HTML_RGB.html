@@ -39,7 +39,7 @@
         console.log(image.height)
         console.log(src.data.length)
 
-        for (let i = 0; i < src.data.length; i += 12) {
+        for (let i = 0; i < src.data.length; i += 8) {
           for (let ii = 0; ii < 3; ii +=1) {
             dst.data[i+ii] = src.data[i+ii]
             dst.data[i+ii+4] = src.data[i+ii]
