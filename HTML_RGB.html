@@ -14,7 +14,7 @@
     const canvas = document.getElementById("canvas")
     const s_canvas = document.getElementById("sub_canvas")
     const ctx = canvas.getContext("2d")
-    const s_ctx = canvas.getContext("2d")
+    const s_ctx = s_canvas.getContext("2d")
 
     // 任意の画像読み込み
     let image = new Image()
@@ -27,7 +27,7 @@
         s_canvas.width = image.width
         s_canvas.height = image.height
         ctx.drawImage(image, 0, 0, canvas.width, canvas.height)
-        s_ctx.drawImage(image, 0, 0, canvas.width, canvas.height)
+        s_ctx.drawImage(image, 0, 0, s_canvas.width, s_canvas.height)
         // canvas描画後、画像の処理を実行
         let src = ctx.getImageData(0, 0, image.width, image.height)
         let dst = ctx.createImageData(image.width, image.height)
