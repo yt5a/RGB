@@ -34,7 +34,7 @@
 
         for (let i = 0; i < src.data.length; i += 4) {
           for (let ii = 0; ii < 3; ii +=1) {
-            if (dst.data[i+ii]>=125) {
+            if (dst.data[i+ii]>=61) {
               dst.data[i+ii] = 0
             }else{
               dst.data[i+ii] = 255
