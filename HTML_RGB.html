@@ -42,9 +42,9 @@
         for (let i = 0; i < src.data.length; i += 1) {
           if (i%5==0) {
           for (let ii = 0; ii < 3; ii +=1) {
-            dst.data[i+ii] = src.data[i+ii]
+            dst.data[i+ii] = 0
           }
-          dst.data[i + 3] = src.data[i + 3]
+          dst.data[i + 3] = 0
         }}
         ctx.putImageData(dst, 0, 0)
         console.log(dst.data[0],dst.data[1],dst.data[2])
