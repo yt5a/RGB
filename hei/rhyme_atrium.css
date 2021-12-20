@@ -126,11 +126,11 @@ border: 4px groove;
 }
 /*canvas----------------------------------------*/
 #canvasBack{
-  width:560px;
+  /*width:560px;
   height:560px;
   display:block;
-  /*text-align: center;*/
-  overflow: scroll;
+  /*text-align: center;
+  overflow: scroll;*/
 }
 #canvas{
   /*float:left;*/

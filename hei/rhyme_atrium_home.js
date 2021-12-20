@@ -268,7 +268,10 @@ function layer_sel(i){
   lab.setAttribute("for",id);
   lab.setAttribute("name",'layer_col');
   lab.setAttribute("class","layer");
+  //lab.style.backgroundColor=sel_path[i].col
+  if (sel_path[i]) {
   lab.style.backgroundColor=sel_path[i].col
+  }
   lab.style.color='#000000'
   //set
   var div = document.createElement("div");

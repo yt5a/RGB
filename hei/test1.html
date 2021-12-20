@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>画像の回転</title>
+<style>
+#canvas {
+	border: solid 1px #ddd;
+	margin: 32px;
+}
+</style>
+
+</head>
+<body>
+	<canvas id="canvas"></canvas>
+
+<style>
+    canvas {
+        border: 1px solid silver;
+    }
+</style>
+  <script type="text/javascript">
+	var canvas = document.getElementById('canvas');
+	var img = new Image();
+	img.src = 'プラス.png';
+	var c = canvas.getContext('2d');
+	//ctx.canvas.width
+	scale = 2
+// Image オブジェクトを生成
+
+// 画像読み込み終了してから描画
+img.onload = function(){
+	console.log(img.width)
+	console.log(img.height)
+	var w = img.width
+	var h = img.height
+	canvas.width = w * scale
+	canvas.height = h * scale
+	// パス
+	c.setTransform(scale,0,0,1,0,0)
+	c.beginPath();
+	c.moveTo(0,0)
+	c.lineTo(w,0)
+	c.lineTo(w,h)
+	c.lineTo(0,h)
+	c.stroke();
+	// clip
+	c.clip();
+	c.setTransform(scale,0,0,1,0,0)
+  c.drawImage(img, 0, 0);
+}
+	</script>
+</body>
+</html>

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>画像の回転</title>
+<style>
+#canvas {
+	border: solid 1px #ddd;
+	margin: 32px;
+}
+</style>
+
+</head>
+<body>
+	<canvas id="canvas" width="500" height="500"></canvas>
+  <script type="text/javascript">
+  // -------------------------------------------------------------------------
+// 画像の回転
+//
+// 					created at 2014-1-7 on take3.asia
+// -------------------------------------------------------------------------
+
+/*
+ * 定数
+ */
+var SCREEN_WIDTH = 500;
+var SCREEN_HEIGHT = 500;
+var TICK = 1000/30;
+var IMG_SRC = "プラス.png";
+
+/*
+ * グローバル変数
+ */
+var id_ = function(id){ return document.getElementById(id); };
+var canvas = null;					// キャンバス
+var g = null;						// コンテキスト
+var title;							// タイトル文字列
+var img = new Image();			// 画像
+var obj = null;					// 画像オブジェクト
+
+/*
+ * 初期化関数
+ */
+var initialize = function(){
+	title = "画像の回転";
+	img.src = IMG_SRC;
+	img.onload = function(){
+		g.drawImage(img,-1000,-1000);
+	};
+	g.clearRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+	obj = new MyImage(200, 200);
+};
+
+/*
+ * 画像クラス
+ */
+var MyImage = function(sx, sy){
+	var angle = 0;
+	var rad = 0;
+	// 初期位置
+	var x = sx;
+	var y = sy;
+	// フレームごとの動作
+	this.update = function(){
+		// 角度をラジアンに変換
+		rad = angle * Math.PI/180;
+		// 今の状態を保存する
+		g.save();
+		// 回転の中心位置を計算（画像の中心を回転中心にする）
+		var cx = x + img.width/2;
+		var cy = y + img.height/2;
+		// 画像を回転
+		g.setTransform(Math.cos(rad), Math.sin(rad), -Math.sin(rad), Math.cos(rad),cx-cx*Math.cos(rad)+cy*Math.sin(rad),cy-cx*Math.sin(rad)-cy*Math.cos(rad));
+		g.drawImage(img, x, y);
+
+		g.restore();
+
+		// 回転角度を変化させる
+		angle ++;
+		if(angle > 360) angle = 0;
+
+		// 情報表示
+		g.fillStyle = "rgba(0, 0, 0, 0.5)";
+		g.fillText(title, 220, 150);
+		g.fillText("angle: " + angle, 24, 32);	//
+		g.fillText("rad: " + rad, 24, 64);	//
+
+		return true;
+	};
+};
+
+/*
+ メイン処理
+ */
+
+var mainLoop = function(){
+	g.fillStyle = "rgb(200, 200, 200)";
+	g.fillRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+	// オブジェクトの動作と消去
+	if(obj && !obj.update()){
+		delete obj;
+	}
+	setTimeout(mainLoop, TICK);
+};
+
+/*
+ * 起動処理
+ */
+window.onload = function()
+{
+	// キャンバス情報取得
+	canvas = id_("canvas");
+	g = canvas.getContext("2d");
+	// 雪を降らせる
+	initialize();
+	mainLoop();
+};
+
+  </script>
+</body>
+</html>

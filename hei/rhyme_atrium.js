@@ -211,28 +211,29 @@
 
 
   function design() {
-    point = []
+    if (sel_path[0]) {
+      point = []
 
-    if (ons==true) {
-      for (key in pap) {
-        sel_path[dog].path[key][0]=mouseX+pap[key][0]
-        sel_path[dog].path[key][1]=mouseY+pap[key][1]
-      }
-    }else{
-      if (line[0]>=0) {
-        paps={}
-        for (var i = 0; i < sel_path[dog].path.length; i++) {
-          var xx=(sel_path[dog].path[i][0]+tri.set[0]-mouseX)**2+(sel_path[dog].path[i][1]+tri.set[1]-mouseY)**2
-          if (mouse_e**2>=xx) {
-            paps[i]=[sel_path[dog].path[i][0]+tri.set[0]-mouseX,sel_path[dog].path[i][1]+tri.set[1]-mouseY]
-          }
+      if (ons==true) {
+        for (key in pap) {
+          sel_path[dog].path[key][0]=mouseX+pap[key][0]
+          sel_path[dog].path[key][1]=mouseY+pap[key][1]
         }
-
-        if (!Object.keys(paps).length&&line[1]<=mouse_e+2) {//垂線交点が存在する。垂線がマウスの範囲にある
-          point.push({x:line[2][0]+tri.set[0],y:line[2][1]+tri.set[1],size:5,col:'blue',line:'red'})
-        }else{
-          for (key in paps) {
-            point.push({x:mouseX+paps[key][0],y:mouseY+paps[key][1],size:5,col:'red',line:'blue'})
+      }else{
+        if (line[0]>=0) {
+          paps={}
+          for (var i = 0; i < sel_path[dog].path.length; i++) {
+            var xx=(sel_path[dog].path[i][0]+tri.set[0]-mouseX)**2+(sel_path[dog].path[i][1]+tri.set[1]-mouseY)**2
+            if (mouse_e**2>=xx) {
+              paps[i]=[sel_path[dog].path[i][0]+tri.set[0]-mouseX,sel_path[dog].path[i][1]+tri.set[1]-mouseY]
+            }
+          }
+          if (!Object.keys(paps).length&&line[1]<=mouse_e+2) {//垂線交点が存在する。垂線がマウスの範囲にある
+            point.push({x:line[2][0]+tri.set[0],y:line[2][1]+tri.set[1],size:5,col:'blue',line:'red'})
+          }else{
+            for (key in paps) {
+              point.push({x:mouseX+paps[key][0],y:mouseY+paps[key][1],size:5,col:'red',line:'blue'})
+            }
           }
         }
       }
@@ -265,9 +266,7 @@ function key_event(){
     }else if (event.key=="ArrowRight") {
       nexts()
     }
-    if (sel_path[0]) {
-      line_get()//マウスより最寄りの辺を取得
-    }
+    line_get()//マウスより最寄りの辺を取得
   });
 }
 
@@ -343,9 +342,7 @@ function on_layer(){
     if (tri.get==true && ons==false) {//縮尺座標調整
       tri.set=[mouseX - tri.path[0],mouseY - tri.path[1]]
     }
-    if (sel_path[0]) {
-      line_get()//マウスより最寄りの辺を取得
-    }
+    line_get()//マウスより最寄りの辺を取得
     design()
     //slider_change()
     /*put_on=inner_get()*/
@@ -366,6 +363,11 @@ function on_layer(){
   };
 
   function click_event(e) {
+    if (ons==true) {
+      ons=false
+      save_path.push(short_save)
+      save_log = []
+    }
     if (tri.get==true) {
       tri.get=false
       //tri.path=[mouseX,mouseY]
@@ -378,6 +380,10 @@ function on_layer(){
         sel_path[dog].path[q] = [dso[0]+tri.set[0],dso[1]+tri.set[1]]
       }
       tri.set=[0,0]
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      save_path.push(short_save)
+      sel_path[dog].path=path_set(sel_path[dog].path)
+      //tri.path=[mouseX,mouseY]
     }
   }
 
@@ -395,8 +401,10 @@ function on_layer(){
   }
 
   function down_edit(){
+    line_get()
     pap = {};
-    if (ons==false && sel_path[0]){
+    ons=false
+    if (sel_path[0]){
       for (var i = 0; i < sel_path[dog].path.length; i++) {
         var xx=(sel_path[dog].path[i][0]-mouseX+tri.set[0])**2+(sel_path[dog].path[i][1]-mouseY+tri.set[1])**2
         if (mouse_e**2>=xx) {
@@ -408,7 +416,6 @@ function on_layer(){
           pap[i]=[sel_path[dog].path[i][0]- mouseX,sel_path[dog].path[i][1]- mouseY]
         }
       }
-
       if(!Object.keys(pap).length && line[1] <= mouse_e+2){
         ons = true
 
@@ -425,28 +432,6 @@ function on_layer(){
         tri.path=[mouseX-tri.set[0],mouseY-tri.set[1]]
         short_save = gets_path()
       }
-
-      //----------color
-      /*
-      var result = sel_path.map(function( value ) {
-          return inner_get(value);
-      });
-
-      if (result.some(function(val){return val == true})==true) {
-        /*
-        var v = result.lastIndexOf(true)
-        col_set=v+1
-        document.getElementById('colors').value=col[v]
-
-      }else{
-        col_set=0
-        document.getElementById('colors').value=back_color
-      }*/
-    }else if(ons==true){
-      ons=false
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      save_path.push(short_save)
-      sel_path[dog].path=path_set(sel_path[dog].path)
     }
   }
 
@@ -476,19 +461,111 @@ function on_layer(){
 
   function down_move(){
     pap = {};
-    if (ons==false){
-      tri.get=true
-      tri.path=[mouseX-tri.set[0],mouseY-tri.set[1]]
-    }else{
-      ons=false
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      var set = {}
+    if (tri.get==true && ons==false) {//縮尺座標調整
+      tri.set=[mouseX - tri.path[0],mouseY - tri.path[1]]
     }
+    line_get()//マウスより最寄りの辺を取得
+    design()
   }
 
+/*------------------------------------------------------------*/
+/*phone*/
+function phone_point(e,t){
+  //var touchObject = e.changedTouches[0];
+	var tX = e.changedTouches[0].pageX ;
+	var tY = e.changedTouches[0].pageY ;
 
+	// 要素の位置を取得
+	var rect = t.getBoundingClientRect()
+	var pX = rect.left + window.pageXOffset ;
+	var pY = rect.top + window.pageYOffset ;
+
+	// 要素内におけるタッチ位置を計算
+	var x = tX - pX ;
+	var y = tY - pY ;
+
+  return [x,y]
+}
+
+
+function phone_s(){
+  var p =phone_point(event,this)
+  mouseX = Math.floor(p[0]);
+  mouseY = Math.floor(p[1]);
+  line_get()
+  pap = {};
+  ons=false
+  if (sel_path[0]){
+    for (var i = 0; i < sel_path[dog].path.length; i++) {
+      var xx=(sel_path[dog].path[i][0]-mouseX+tri.set[0])**2+(sel_path[dog].path[i][1]-mouseY+tri.set[1])**2
+      if (mouse_e**2>=xx) {
+        ons = true
+
+        short_save = gets_path()
+        save_log = []
+
+        pap[i]=[sel_path[dog].path[i][0]- mouseX,sel_path[dog].path[i][1]- mouseY]
+      }
+    }
+    if(!Object.keys(pap).length && line[1] <= mouse_e+2){
+      ons = true
+
+      short_save = gets_path()
+      save_log = []
+
+      var id = line[0]+1
+      sel_path[dog].path.splice(id,0,line[2]);
+      pap[id]=[sel_path[dog].path[id][0]- mouseX,sel_path[dog].path[id][1]- mouseY]
+    }
+
+    if (ons==false) {//判定が無い//図形移動
+      tri.get=true
+      tri.path=[mouseX-tri.set[0],mouseY-tri.set[1]]
+      short_save = gets_path()
+    }
+  }
+}
+
+function phone_m() {
+  var p = phone_point(event,this)
+  mouse_st = true
+  mouseX = Math.floor(p[0]);
+  mouseY = Math.floor(p[1]);
+  if (tri.get==true && ons==false) {//縮尺座標調整
+    tri.set=[mouseX - tri.path[0],mouseY - tri.path[1]]
+  }
+  line_get()//マウスより最寄りの辺を取得
+  design()
+  //slider_change()
+  /*put_on=inner_get()*/
+}
+
+function phone_e() {
+  console.log("EEE")
+  var p =phone_point(event,this)
+  mouseX = Math.floor(p[0]);
+  mouseY = Math.floor(p[1]);
+  if (tri.get==true) {
+    tri.get=false
+    //tri.path=[mouseX,mouseY]
+    if (tri.set.every(v => Math.abs(v)>=1)) {
+      save_path.push(short_save)
+      save_log = []
+    }
+    for (var q = 0; q < sel_path[dog].path.length; q++) {
+      var dso = sel_path[dog].path[q]
+      sel_path[dog].path[q] = [dso[0]+tri.set[0],dso[1]+tri.set[1]]
+    }
+    tri.set=[0,0]
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    save_path.push(short_save)
+    sel_path[dog].path=path_set(sel_path[dog].path)
+    //tri.path=[mouseX,mouseY]
+  }
+}
 /*------------------------------------------------------------*/
   function line_get(){//最寄りの線
+    if (sel_path[0]) {
     line = [-1,10000,[]];
     var len = sel_path[dog].path.length;
     var path = sel_path[dog].path
@@ -521,6 +598,7 @@ function on_layer(){
           line[2]=mp
         }
       }
+    }
     }
   }
 
@@ -573,16 +651,22 @@ function on_layer(){
 
   function canvas_event(c){
     c_time *= -1
-    if (c_time==-1) {
-      canvas.addEventListener('mousemove', mouse_move, false);
-      canvas.addEventListener('mouseleave', mouse_out, false);
-      canvas.addEventListener('click',click_event, false);
-      canvas.addEventListener('mousedown', down_event, false);
-    }else if(c_time==1){
-      canvas.removeEventListener('mousemove', mouse_move, false);
-      canvas.removeEventListener('mouseleave', mouse_out, false);
-      canvas.removeEventListener('click',click_event, false);
-      canvas.removeEventListener('mousedown', down_event, false);
+    if(typeof window.ontouchstart === "undefined"){
+      if (c_time==-1) {
+        canvas.addEventListener('mousemove', mouse_move, false);
+        canvas.addEventListener('mouseleave', mouse_out, false);
+        canvas.addEventListener('click',click_event, false);
+        canvas.addEventListener('mousedown', down_event, false);
+      }else if(c_time==1){
+        canvas.removeEventListener('mousemove', mouse_move, false);
+        canvas.removeEventListener('mouseleave', mouse_out, false);
+        canvas.removeEventListener('click',click_event, false);
+        canvas.removeEventListener('mousedown', down_event, false);
+      }
+    }else{
+      canvas.addEventListener('touchstart',phone_s);
+      canvas.addEventListener('touchmove',phone_m, false);
+      canvas.addEventListener('touchend', phone_e, false);
     }
   }
 

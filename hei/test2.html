@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>画像の回転</title>
+<style>
+#canvas {
+	border: solid 1px #ddd;
+	margin: 32px;
+}
+</style>
+
+</head>
+<body>
+	<canvas id="canvas"></canvas>
+
+<style>
+    canvas {
+        border: 1px solid silver;
+    }
+</style>
+  <script type="text/javascript">
+	var canvas = document.getElementById('canvas');
+	var img = new Image();
+	img.src = 'プラス.png';
+	var c = canvas.getContext('2d');
+	//ctx.canvas.width
+	scale = 1
+	//angleX = Math.floor( Math.random() * 90)
+	angleX = 0
+	angX = angleX * Math.PI/180;
+	//angleY = Math.floor( Math.random() * 90)
+	angleY = 0
+	angY = angleY * Math.PI/180;
+
+	rock=-0.4
+	// Image オブジェクトを生成
+	// 画像読み込み終了してから描画
+	img.onload = function(){
+	  var w = img.width
+	  var h = img.height
+	  canvas.width = w * scale+100
+	  canvas.height = h * scale+100
+		var p = [[0,0],[w,0],[w,h],[0,h]]
+		var m = [w/2,h/2]
+		var len = p.length
+	  // パス
+		for (var i = 0; i < 4; i++) {
+			/*
+	    c.setTransform(scale,angX,angY,scale,0,0)
+	    c.beginPath();
+	    c.moveTo(p[i][0],p[i][1])
+	    c.lineTo(p[(i+1)%len][0],p[(i+1)%len][1])
+	    //c.lineTo(p[(i+2)%len][0],p[(i+2)%len][1])
+			c.lineTo(m[0],m[1])
+	    c.stroke();
+		  c.save();
+	    // clip
+	    c.clip();
+	    c.setTransform(scale,angX,angY,scale,0,0)
+      c.drawImage(img,0,0);
+		  c.restore();*/
+			if (i%2==0) {
+			c.setTransform(scale-rock,angX,angY,scale,0,0)
+	    c.beginPath();
+	    c.moveTo(p[i][0],p[i][1])
+	    c.lineTo(m[0],m[1])
+	    //c.lineTo(p[(i+2)%len][0],p[(i+2)%len][1])
+			c.lineTo(m[0],p[i][1])
+	    c.stroke();
+		  c.save();
+	    // clip
+	    c.clip();
+	    c.setTransform(scale-rock,angX,angY,scale,0,0)
+      c.drawImage(img,0,0);
+		  c.restore();
+
+			c.setTransform(scale+rock,angX,angY,scale,-w*rock,0)
+	    c.beginPath();
+	    //c.moveTo(p[i][0],p[i][1])
+			c.moveTo(p[(i+1)%len][0],p[(i+1)%len][1])
+	    c.lineTo(m[0],m[1])
+	    //c.lineTo(p[(i+2)%len][0],p[(i+2)%len][1])
+			c.lineTo(m[0],p[i][1])
+	    c.stroke();
+		  c.save();
+	    // clip
+	    c.clip();
+	    c.setTransform(scale+rock,angX,angY,scale,-h*rock,0)
+      c.drawImage(img,0,0);
+		  c.restore();
+		  }else{
+				c.setTransform(scale-rock,angX,angY,scale,0,0)
+		    c.beginPath();
+		    c.moveTo(p[(i)%len][0],p[(i)%len][1])
+		    c.lineTo(m[0],m[1])
+		    //c.lineTo(p[(i+2)%len][0],p[(i+2)%len][1])
+				c.lineTo(p[(i)%len][0],m[1])
+		    c.stroke();
+			  c.save();
+		    // clip
+		    c.clip();
+		    c.setTransform(scale-rock,angX,angY,scale,0,0)
+	      c.drawImage(img,0,0);
+			  c.restore();
+
+				c.setTransform(scale-rock,angX,angY,scale,0,0)
+		    c.beginPath();
+		    //c.moveTo(p[i][0],p[i][1])
+				c.moveTo(p[(i+1)%len][0],p[(i+1)%len][1])
+		    c.lineTo(m[0],m[1])
+		    //c.lineTo(p[(i+2)%len][0],p[(i+2)%len][1])
+				c.lineTo(p[(i+1)%len][0],m[1])
+		    c.stroke();
+			  c.save();
+		    // clip
+		    c.clip();
+		    c.setTransform(scale-rock,angX,angY,scale,0,0)
+	      c.drawImage(img,0,0);
+			  c.restore();
+		  }
+	  }
+  }
+	</script>
+</body>
+</html>
