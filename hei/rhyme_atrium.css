@@ -1,3 +1,4 @@
+/*
 @keyframes wave {
   100% {
     transform: translate3d(0, -10px, 0);
@@ -8,11 +9,24 @@
     transform: translate3d(0, 10px, 0);
   }
 }
-
+*/
 @keyframes logo_rotate {
   30% {
     /*transform: rotate(360deg);*/
     transform: scale(1.05, 1.05);
+  }
+}
+
+@keyframes sleep_in {
+  0%{
+    margin-top:56px;
+    margin-bottom:0px;
+    opacity:0;
+  }
+  100%{
+    margin-top:6px;
+    margin-bottom:50px;
+    opacity:1;
   }
 }
 
@@ -29,6 +43,7 @@
   text-align: center;
 }
 
+/*
 #title_word:hover span:nth-of-type(even){
   color:blue;
   animation-name: wave;
@@ -43,7 +58,7 @@
   animation-direction: alternate;
   animation-iteration-count: 2;
 }
-
+*/
 #title_logo{
   width:200px;
 }
@@ -76,6 +91,7 @@ input[type="radio"]:checked + label img{
 
 .sampleForm img{
   margin:6px;
+  animation: sleep_in 1s linear 1 forwards;
 }
 /*layers----------------------------------------*/
 #main {

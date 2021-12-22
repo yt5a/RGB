@@ -32,6 +32,7 @@ function select_set(){
   var set_pass = setting()
   var form = Object.assign(document.createElement("form"),{className:"sampleForm"})
   var inp = ""
+  /*
   for (var i = 0; i < set_pass.length; i++) {
     var path=set_pass[i].map(function(v) {return [v.path,v.col]})
     console.log(set_pass[i][0].bcol)
@@ -59,15 +60,46 @@ function select_set(){
     inp.setAttribute("width","200")
     inp.setAttribute("height","200")
     inp.setAttribute("onclick","draw_set("+i+")");
-    /*
-    var inp = document.createElement("input")
-    inp.setAttribute("type","button")
-    inp.setAttribute("value",(i+1)+"Click")
-    inp.setAttribute("onclick","draw_set("+i+")");
-    */
     form.appendChild(inp)
   }
+  */
   document.getElementById('main').appendChild(form);
+
+  function set(){
+    var path=set_pass[i].map(function(v) {return [v.path,v.col]})
+    console.log(set_pass[i][0].bcol)
+    ctx.fillStyle = set_pass[i][0].bcol;
+    ctx.fillRect(0, 0,canvas.width, canvas.height);
+    //path=path.map(function(v) {return [v.path,v.col]})
+    console.log(path)
+    for (var f = 0; f < path.length; f++) {
+      ctx.beginPath();
+      ctx.fillStyle = path[f][1];
+
+      if(path[f][0][0].length==2){
+        for (var q = 0; q < path[f][0].length; q++) {
+          if (q==0) {ctx.moveTo(path[f][0][q][0],path[f][0][q][1])}
+          else{ctx.lineTo(path[f][0][q][0],path[f][0][q][1])}
+        }
+      }else if(path[f][0][0].length==3){
+        ctx.arc(path[f][0][0][0],path[f][0][0][1],path[f][0][0][2],0,360*Math.PI/180,false);
+      }
+      ctx.fill();
+    }
+
+    var inp = document.createElement("img")
+    inp.setAttribute("src",canvas.toDataURL())
+    inp.setAttribute("width","200")
+    inp.setAttribute("height","200")
+    inp.setAttribute("onclick","draw_set("+i+")");
+    document.getElementsByClassName('sampleForm')[0].appendChild(inp)
+    i+=1
+    if (i < set_pass.length) {
+      setTimeout(set,200)
+    }
+  }
+  var i = 0
+  set()
 }
 
 function draw_set(n){
