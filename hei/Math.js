@@ -70,5 +70,9 @@ function tri_ang(sp,kp,mp){
 
 //RGB→カラーコード
 function rgbTo16(col){
-  return "#" + col.match(/\d+/g).map(function(a){return ("0" + parseInt(a).toString(16)).slice(-2)}).join("");
+  if (!col.match(/rgb/)) {
+    return col
+  }else{
+    return "#" + col.match(/\d+/g).map(function(a){return ("0" + parseInt(a).toString(16)).slice(-2)}).join("");
+  }
 }

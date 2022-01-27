@@ -31,13 +31,13 @@
 
 /*------------------------------------------------------------*/
   // 初期化処理
-  function reload(date) {
-    /*document.getElementById('colors').addEventListener('input', function(){
+  function reload(n) {
+    document.getElementById('colors').addEventListener('input', function(){
       if (col_set>=1 && sel_path.length>=1) {
         document.getElementsByName('layer_col').item(col_set-1).style.backgroundColor=this.value
         sel_path[col_set-1].col=this.value;
       }
-    });*/
+    });
     canvas = document.getElementById('canvas');
     pcanvas = document.getElementById('pic_canvas');
     mcanvas = document.getElementById('mouse_canvas');
@@ -56,15 +56,14 @@
 
     point = []
     //----------
-    //date_set = ""
-    //date_set=setting()//パスデータの取得
-    date_set=date.data
+    date_set = ""
+    date_set=setting()//パスデータの取得
+    date_set=date_set[n]
 
-    sel_path=date_set.map(function(v) {
-      return {path:v.path,col:v.col}})
+    sel_path=date_set.map(function(v) {return {path:v.path,col:v.col} })
     //col=date_set.map(function(v) {return v.col})
-    if (bcol) {
-    back_set = bcol
+    if (date_set[0]) {
+    back_set = [date_set[0].bcol]
     }else{
       back_set = ""
     }
@@ -83,7 +82,7 @@
     canvas.style.zIndex = 1;
     pcanvas.width = 550 ;
     pcanvas.height = 550 ;
-    pcanvas.style.zIndex = 2
+    pcanvas.style.zIndex = 2;
     mcanvas.width = 550 ;
     mcanvas.height = 550 ;
     mcanvas.style.zIndex = 3;
@@ -151,10 +150,14 @@
     //ctx.fillStyle = "white";
 		//ctx.fillRect(0, 0,canvas.width, canvas.height);
     //背景
-    ctx.clearRect(0,0,canvas.width,canvas.height);
-    if (back_set) {
-       ctx.fillStyle = back_set;
+    if (back_set[0] instanceof HTMLElement){
+      //ctx.drawImage(back_set[0],0,0);
+    }else{
+     ctx.clearRect(0,0,canvas.width,canvas.height);
+     if (back_set[0]) {
+       ctx.fillStyle = back_set[0];
 		   ctx.fillRect(0, 0,canvas.width, canvas.height);
+     }
     }
     //画像
 
@@ -207,22 +210,17 @@
         pctx.beginPath();
         pctx.fillStyle = path.col;
         pctx.globalAlpha = 0.7;
+        if(path.path[0].length==2){
           for (var q = 0; q < path.path.length; q++) {
             /*if (q==0) {ctx.moveTo(sel_path[f].path[q][0]+tri.set[0], sel_path[f].path[q][1]+tri.set[1])}
             else{ctx.lineTo(sel_path[f].path[q][0]+tri.set[0], sel_path[f].path[q][1]+tri.set[1])}*/
             if (q==0) {pctx.moveTo(path.path[q][0]+tri.set[0],path.path[q][1]+tri.set[1])}
             else{pctx.lineTo(path.path[q][0]+tri.set[0],path.path[q][1]+tri.set[1])}
           }
-        pctx.fill();
-        pctx.beginPath();
-        for (var q = 0; q < path.path.length; q++) {
-          /*if (q==0) {ctx.moveTo(sel_path[f].path[q][0]+tri.set[0], sel_path[f].path[q][1]+tri.set[1])}
-          else{ctx.lineTo(sel_path[f].path[q][0]+tri.set[0], sel_path[f].path[q][1]+tri.set[1])}*/
-          if (q==0) {pctx.moveTo(path.path[q][0]+tri.set[0],path.path[q][1]+tri.set[1])}
-          else{pctx.lineTo(path.path[q][0]+tri.set[0],path.path[q][1]+tri.set[1])}
+        }else if(path.path[0].length==3){
+          pctx.arc(path.path[0][0],path[0][1],path.path[0][2],0,360*Math.PI/180,false);
         }
-        pctx.lineTo(path.path[0][0]+tri.set[0],path.path[0][1]+tri.set[1])
-        pctx.stroke() ;
+        pctx.fill();
       }
     }
   }
@@ -799,10 +797,7 @@ function layer_pop(n){
 
   var layer = document.getElementById("layers")
   for (var i = 0; i < layer.children.length; i++) {
-    layer.children[i].children[0].children[0].value=i
-    if (i==0) {
-      layer.children[i].children[0].children[0].checked = true ;
-    }
+    layer.children[i].children[0].value=i
   }
   sel_path.splice(n,1)
   if (sel_path.length==0) {
