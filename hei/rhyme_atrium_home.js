@@ -19,11 +19,9 @@ for (const i in title_text){
 
 //document.getElementById("title_logo").setAttribute("onclick",
 document.getElementById("title_logo").addEventListener('click',
-function(){
-  setTimeout("select_set()",500)
-}
+  function(){setTimeout("select_set()",500)}
 //"select_set()"
-);
+  );
 });
 
 //メニュー画面----------------------------------------------------------------------
@@ -54,16 +52,16 @@ function select_set(){
   select.appendChild(label);
   //------------------------------
   var label = Object.assign(document.createElement("label"),{className:'select_after'})
-  var cont_2 = Object.assign(document.createElement("input"),{type:"button",value:"open_mode",className:'select_btn'})
+  var cont_2 = Object.assign(document.createElement("input"),{type:"button",value:"作品一覧 / ART_WORK",className:'select_btn'})
   //cont_1.addEventListener('click', function(){pop_set(setting()[1])})
   cont_2.addEventListener('click', function(){mode_select()})
   label.appendChild(cont_2);
   select.appendChild(label);
   //------------------------------
   var label = Object.assign(document.createElement("label"),{className:'select_after'})
-  var cont_3 = Object.assign(document.createElement("input"),{type:"button",value:"Tips",className:'select_btn'})
+  var cont_3 = Object.assign(document.createElement("input"),{type:"button",value:"ヒント / Tips",className:'select_btn'})
   //cont_1.addEventListener('click', function(){pop_set(setting()[1])})
-  cont_3.addEventListener('click', function(){pop_set({data:[]})})
+  cont_3.addEventListener('click', function(){tips_set(0)})
   label.appendChild(cont_3);
   select.appendChild(label);
 
@@ -93,6 +91,7 @@ function pop_set(data){
   dot.classList.add("pop_child");
 
   //rgb
+  console.log(bcol)
   var rgb = ['rgb(255,0,0)','rgb(0,255,0)','rgb(0,0,255)']
   var col = bcol.match(/\d+/g)
   for (var i = 0; i < col.length; i++) {
@@ -111,8 +110,62 @@ function pop_set(data){
   dot.appendChild(document.createElement("br"))
   //plays
   var butt = Object.assign(document.createElement("input"),{type:"button",value:"START"})
+  butt.style.width = "50%"
+  butt.style.height = "30px"
   butt.addEventListener('click', function(){draw_set(data)})
   dot.appendChild(butt);
+
+  document.getElementsByClassName('sampleForm')[0].appendChild(dot)
+}
+
+
+function tips_set(n){
+  var tip = tips_get()[n]
+  console.log(tip)
+  //
+  document.getElementById('pop_out').classList.add("pop_in");
+  document.getElementById('pop_out').classList.remove("pop_hide");
+  document.getElementById('pop_out').innerHTML = ""
+  //
+  var form = Object.assign(document.createElement("form"),{className:"sampleForm"})
+  document.getElementById('pop_out').appendChild(form);
+
+  //img-----
+  var inp = document.createElement("img")
+  const image = new Image();
+  image.src = tip.img;
+  image.onload = () => {
+    inp.style.width = window.innerWidth/2
+    inp.style.height = (image.height/image.width)*window.innerWidth/2
+  console.log(image.width,image.height)
+  }
+  //inp.classList.add("pop_child");
+  inp.setAttribute("src",tip.img)
+  inp.classList.add("pop_child");
+  inp.style.width = '50%'
+  inp.style.height = '50%'
+  //inp.addEventListener('click', function(){draw_set(data)})
+  document.getElementsByClassName('sampleForm')[0].appendChild(inp)
+
+  //option-----
+  var dot = document.createElement("div")
+  dot.classList.add("pop_child");
+
+  dot.appendChild(document.createElement("br"))
+  //plays
+  for (var i = 0; i < tips_get().length; i++) {
+  var butt = Object.assign(document.createElement("input"),{type:"button",value:i})
+  butt.addEventListener('click', function(){tips_set(this.value)})
+  dot.appendChild(butt);
+  }
+  dot.appendChild(document.createElement("br"))
+  var txtt = document.createElement("h1")
+  txtt.innerHTML = tip.title
+  dot.appendChild(txtt)
+  var txtt = document.createElement("div")
+  txtt.innerHTML = tip.data
+  txtt.style.margin = "2px";
+  dot.appendChild(txtt)
 
   document.getElementsByClassName('sampleForm')[0].appendChild(dot)
 }
@@ -303,6 +356,10 @@ function draw_set(n){
   document.getElementById('option1').appendChild(lab);
   //-----
   //var sli = Object.assign(document.createElement("input"),{
+  var slitx = document.createElement("span");
+  slitx.innerHTML = "マウスの大きさ："
+  slitx.style.fontWeight = "bold";
+  document.getElementById('option1').appendChild(slitx);
   var sli = document.createElement("input");
   sli.setAttribute("id","mouse_slide");
   sli.setAttribute("type","range");
@@ -318,11 +375,12 @@ function draw_set(n){
   col.setAttribute("type","color");
   col.setAttribute("id","colors");
   col.setAttribute("value","#000000");
+  col.style.display = "none"
   document.getElementById('option1').appendChild(col);
 
   var save = document.createElement("input")
   save.setAttribute("type","button")
-  save.setAttribute("value","SAVE")
+  save.setAttribute("value","保存")
   save.addEventListener('click', function(){
     cat=-1
     drawing()
@@ -333,7 +391,11 @@ function draw_set(n){
   	a.click()
     cat=dog
     drawing()
-    //localStorage.setItem('img',JSON.stringify(data_set));
+    console.log(sel_path)
+    //localStorage.setItem('img',JSON.stringify({data:{path:[sel_path],bcol:rgbTo16(bcol)}]));
+    localStorage.setItem('img',JSON.stringify(
+      {data:sel_path,bcol:bcol}));
+    console.log(JSON.parse(localStorage.getItem('img')))
   })
   document.getElementById('option1').appendChild(save);
 
@@ -456,6 +518,10 @@ function layer_sel(i){
   div=layer_event(div)
 
   var dac = Object.assign(document.createElement("div"),{classList:"layer_tag"})
+  dac.addEventListener("mouseover",function(e){
+    console.log(this.children[0].children[0].value)
+    line_to(sel_path[this.children[0].children[0].value].path)
+  })
   dac.appendChild(div);
 
   var cdiv = document.createElement("div")
@@ -509,6 +575,7 @@ function layer_sel(i){
     //sel_path[col_set-1].col=this.value;*/
     pic_draw()
     put_draw()
+    drawing()
   })
   cdiv.appendChild(colll);
 
@@ -553,7 +620,6 @@ function layer_join(){
   //document.getElementById('indent').appendChild(div)
   document.getElementById('indent').appendChild(div)
 }
-
 
 /*
 function layer_dlete(){

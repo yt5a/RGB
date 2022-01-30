@@ -24,13 +24,45 @@ if (localStorage.getItem('img')){
 }*/
 
 function setting(){
-  /*
   if (localStorage.getItem('img')){
     date_img = JSON.parse(localStorage.getItem('img'))
     console.log(date_img)
-    return path.concat([date_img])
+    //if (date_img.length>=1) {
+      return path.concat(date_img)
+    //}else{
+      return path
+    //}
   }else{
     return path
-  }*/
+  }
   return path
+}
+
+
+
+//-------------------------------------------------------
+var tips = [
+  {title:"HOME画面",
+   data:"メイン画面は三つの項目に別れている。<br><br><strong>・新規作成</strong><br>新しい画像を制作する。<br><br><strong>・作品一覧</strong><br>既に制作された画像を見る。"+
+   "<br><br><strong>・ヒント</strong><br>各項目ごとの説明を確認できる。",
+   img:"HOME_img.png"},
+  {title:"背景の変色",
+   data:"背景の色を変える画面。<br>赤、青、黄のバーを動かす事で背景の色を変える事ができる。<br>そして、『START』ボタンを押すと編集画面へ移動する。",
+   img:"BACK_img.png"},
+  {title:"編集画面",
+   data:"画像を編集・制作する画面。<br><br><strong>・キャンバス</strong><br>キャンバス上でドラッグ&ドロップする事で図形を変形・移動する事ができる。<br><br>"+
+   "<strong>・レイアー</strong><br>階層毎に図形が分けられている。<br>選択する事で変形する画像を切り替える事ができる。<br>また変色、画像の削除もここで行う。<br><br>"+
+   "<strong>・オプション</strong><br>編集・削除のモード切り替え、マウスの大きさの変更、画像の保存を行う事ができる。<br>保存した画像は作品一覧に追加される。",
+   img:"PLAY_img.png"}
+  /*
+  [{path:[[100,150],[200,150],[200,250],[100,250]],col:'#000000',bcol:"#4169e1"},
+   {path:[[350,150],[450,150],[450,250],[350,250]],col:'#000000'},
+   {path:[[100,350],[200,400],[275,400],[350,400],[450,350],[500,400],[450,450],[275,500],[100,450],[50,400]],col:'#ff0000'}]*/
+  //[{path:[[200,200],[400,200],[400,400],[200,400]],col:'#ff0000'},
+  // {path:[[250,500,50]],col:'#008000'}]
+]
+//<strong></strong>
+function tips_get(){
+  console.log(tips)
+  return tips
 }

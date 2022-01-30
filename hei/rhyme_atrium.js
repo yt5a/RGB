@@ -186,15 +186,17 @@
     ctx.restore();
     ctx.save();
     //線
+    //line_to(1)
+    /*
     if (line_light>=1) {
       for (var i = 0; i < len; i++) {
-        ctx.beginPath () ;
+        ctx.beginPath();
         ctx.moveTo(sel_path[dog].path[i][0]+tri.set[0],sel_path[dog].path[i][1]+tri.set[1]);
         ctx.lineTo(sel_path[dog].path[(i+1)%len][0]+tri.set[0],sel_path[dog].path[(i+1)%len][1]+tri.set[1])
         ctx.strokeStyle = "black";
         ctx.stroke() ;
       }
-    }
+    }*/
   };
 
   function pic_draw() {
@@ -214,15 +216,7 @@
             else{pctx.lineTo(path.path[q][0]+tri.set[0],path.path[q][1]+tri.set[1])}
           }
         pctx.fill();
-        pctx.beginPath();
-        for (var q = 0; q < path.path.length; q++) {
-          /*if (q==0) {ctx.moveTo(sel_path[f].path[q][0]+tri.set[0], sel_path[f].path[q][1]+tri.set[1])}
-          else{ctx.lineTo(sel_path[f].path[q][0]+tri.set[0], sel_path[f].path[q][1]+tri.set[1])}*/
-          if (q==0) {pctx.moveTo(path.path[q][0]+tri.set[0],path.path[q][1]+tri.set[1])}
-          else{pctx.lineTo(path.path[q][0]+tri.set[0],path.path[q][1]+tri.set[1])}
-        }
-        pctx.lineTo(path.path[0][0]+tri.set[0],path.path[0][1]+tri.set[1])
-        pctx.stroke() ;
+        line_to(path.path)
       }
     }
   }
@@ -819,10 +813,52 @@ function layer_push(){
   for (var i = 0; i < layer.children.length; i++) {
     layer.children[i].children[0].value=i
   }
-  sel_path.push({path:[[200,200],[400,200],[400,400],[200,400]],col:document.getElementById('colors').value})
+  var x = Math.floor(Math.random() * 101) - 50;
+  var y = Math.floor(Math.random() * 101) - 50;
+  sel_path.push({path:[[200+x,200+y],[400+x,200+y],[400+x,400+y],[200+x,400+y]],col:document.getElementById('colors').value})
   //{path:[[200,200],[400,200],[400,400],[200,400]],col:'#ff0000',bcol:"#808080"}
-  dog=sel_path.length-1
+  //dog=sel_path.length-1
   col_set=sel_path.length
   pic_draw()
   drawing()
+}
+
+function line_to(p){
+  if (cat>=0) {
+    pctx.clearRect(0,0,canvas.width,canvas.height);
+    var path = sel_path[cat]
+    //if (path.path.length>=1) {
+    if (path){
+      pctx.beginPath();
+      pctx.fillStyle = path.col;
+      pctx.globalAlpha = 0.7;
+        for (var q = 0; q < path.path.length; q++) {
+          /*if (q==0) {ctx.moveTo(sel_path[f].path[q][0]+tri.set[0], sel_path[f].path[q][1]+tri.set[1])}
+          else{ctx.lineTo(sel_path[f].path[q][0]+tri.set[0], sel_path[f].path[q][1]+tri.set[1])}*/
+          if (q==0) {pctx.moveTo(path.path[q][0]+tri.set[0],path.path[q][1]+tri.set[1])}
+          else{pctx.lineTo(path.path[q][0]+tri.set[0],path.path[q][1]+tri.set[1])}
+        }
+      pctx.fill();
+      pctx.beginPath();
+      for (var q = 0; q < p.length; q++) {
+        /*if (q==0) {ctx.moveTo(sel_path[f].path[q][0]+tri.set[0], sel_path[f].path[q][1]+tri.set[1])}
+        else{ctx.lineTo(sel_path[f].path[q][0]+tri.set[0], sel_path[f].path[q][1]+tri.set[1])}*/
+        if (q==0) {pctx.moveTo(p[q][0]+tri.set[0],p[q][1]+tri.set[1])}
+        else{pctx.lineTo(p[q][0]+tri.set[0],p[q][1]+tri.set[1])}
+      }
+      pctx.lineTo(p[0][0]+tri.set[0],p[0][1]+tri.set[1])
+      pctx.stroke() ;
+    }
+  }
+  /*
+  var len = sel_path[n].length
+  if (line_light>=1) {
+    for (var i = 0; i < len; i++) {
+      ctx.beginPath();
+      ctx.moveTo(sel_path[n].path[i][0]+tri.set[0],sel_path[n].path[i][1]+tri.set[1]);
+      ctx.lineTo(sel_path[n].path[(i+1)%len][0]+tri.set[0],sel_path[n].path[(i+1)%len][1]+tri.set[1])
+      ctx.strokeStyle = "black";
+      ctx.stroke() ;
+    }
+  }*/
 }
