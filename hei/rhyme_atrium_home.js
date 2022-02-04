@@ -42,8 +42,13 @@ function select_set(){
   //document.getElementById('option1').appendChild(pop_out);
   document.body.appendChild(pop_out);
 
-  if(JSON.parse(localStorage.getItem('img')).length>=11){
-    localStorage.setItem('img',JSON.stringify(JSON.parse(localStorage.getItem('img')).slice(1)));
+  var jk = localStorage.getItem('img')
+  if(jk.match(/{/)){
+    if (jk instanceof Array == true) {
+      if(JSON.parse(localStorage.getItem('img')).length>=11){
+        localStorage.setItem('img',JSON.stringify(JSON.parse(localStorage.getItem('img')).slice(1)));
+      }
+    }
   }
   //------------------------------
   var select = document.createElement("div")
