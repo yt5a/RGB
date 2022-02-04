@@ -77,15 +77,15 @@
     if(!canvas && !canvas.getContext) {
       return false;
     }
-
-    canvas.width = 550 ;
-    canvas.height = 550 ;
+    var tarn = window.innerHeight*0.8
+    canvas.width = tarn ;
+    canvas.height = tarn ;
     canvas.style.zIndex = 1;
-    pcanvas.width = 550 ;
-    pcanvas.height = 550 ;
+    pcanvas.width = tarn ;
+    pcanvas.height = tarn ;
     pcanvas.style.zIndex = 2
-    mcanvas.width = 550 ;
-    mcanvas.height = 550 ;
+    mcanvas.width = tarn ;
+    mcanvas.height = tarn ;
     mcanvas.style.zIndex = 3;
 
     ctx = canvas.getContext('2d');

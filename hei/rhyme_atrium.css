@@ -269,7 +269,8 @@ input[type="radio"]:checked + label img{
 }
 
 #layers{
-  max-height:550px;
+  /*max-height:550px;*/
+  max-height:80vh;
   overflow:scroll;
 }
 
@@ -355,8 +356,10 @@ border: 4px groove;
 
 #canvas{
   /*float:left;*/
-  width:550px;
-  height:550px;
+  /*width:550px;
+  height:550px;*/
+  width:80vh;
+  height:80vh;
   border:solid;
   text-align: center;
 
