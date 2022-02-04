@@ -239,7 +239,7 @@ function save_pop(data){
     console.log(sel_path)
     //localStorage.setItem('img',JSON.stringify({data:{path:[sel_path],bcol:rgbTo16(bcol)}]));
     var get_yet = JSON.parse(localStorage.getItem('img'))
-    if (typeof get_yet.length == "undefined") {
+    if (get_yet instanceof Array == false) {
       localStorage.setItem('img',[JSON.stringify(
         {data:sel_path,bcol:bcol})]);
     }else{
