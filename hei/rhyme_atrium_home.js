@@ -253,12 +253,12 @@ function save_pop(data){
   dot.appendChild(butt);
 
   document.getElementsByClassName('sampleForm')[0].appendChild(dot)
-  canvas.width = width;
+  /*canvas.width = width;
   canvas.height = height;
   pcanvas.width = width
   pcanvas.height = height;
   mcanvas.width = width;
-  mcanvas.height = height;
+  mcanvas.height = height;*/
 }
 
 //mode_select----------------------------------------------------------------------
