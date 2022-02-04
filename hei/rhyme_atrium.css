@@ -90,11 +90,13 @@ img {
 }
 
 .sampleForm{
+  position:fixed;
+  top:0px;
   background-color:rgba(122,122,122,0.5);
-  display: flex;
+  display:flex;
   width:100%;
   height:100%;
-  position: absolute;
+  /*position: absolute;*/
   /*flex-direction:row;*/
   /*justify-content: space-around;*/
 }
@@ -227,11 +229,26 @@ img {
   border-bottom:solid 3px;
 }
 
-.mode img{
-  height:30px;
+label.mode{
+  /*height:30px;
   margin:2px;
-  border:4px solid;
+  background-color:#dcdcdc;*/
+  font-size:24px;
+  font-weight   : bold;
   background-color:#dcdcdc;
+  border:3px inset;
+  margin:5px;
+}
+
+span.moded{
+  /*height:30px;
+  margin:2px;
+  background-color:#dcdcdc;*/
+  font-size:24px;
+  font-weight   : bold;
+  background-color:#dcdcdc;
+  border:3px inset;
+  margin:5px;
 }
 
 input[type="radio"]{

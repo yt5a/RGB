@@ -39,7 +39,8 @@ function select_set(){
       document.getElementById('pop_out').innerHTML = ""
     }
   })
-  document.getElementById('option1').appendChild(pop_out);
+  //document.getElementById('option1').appendChild(pop_out);
+  document.body.appendChild(pop_out);
 
   //------------------------------
   var select = document.createElement("div")
@@ -112,7 +113,12 @@ function pop_set(data){
   var butt = Object.assign(document.createElement("input"),{type:"button",value:"START"})
   butt.style.width = "50%"
   butt.style.height = "30px"
-  butt.addEventListener('click', function(){draw_set(data)})
+  butt.addEventListener('click', function(){
+    document.getElementById('pop_out').classList.add("pop_hide");
+    document.getElementById('pop_out').classList.remove("pop_in");
+    document.getElementById('pop_out').innerHTML = ""
+    draw_set(data)
+  })
   dot.appendChild(butt);
 
   document.getElementsByClassName('sampleForm')[0].appendChild(dot)
@@ -166,6 +172,85 @@ function tips_set(n){
   txtt.innerHTML = tip.data
   txtt.style.margin = "2px";
   dot.appendChild(txtt)
+
+  document.getElementsByClassName('sampleForm')[0].appendChild(dot)
+}
+
+function save_pop(data){
+  //
+  document.getElementById('pop_out').classList.add("pop_in");
+  document.getElementById('pop_out').classList.remove("pop_hide");
+  document.getElementById('pop_out').innerHTML = ""
+  //
+  var form = Object.assign(document.createElement("form"),{className:"sampleForm"})
+  document.getElementById('pop_out').appendChild(form);
+  document.getElementById('pop_out').onclick = function() {
+    drawing()
+  }
+  //pop_out
+  //img-----
+  var inp = document.createElement("img")
+  inp.classList.add("pop_child");
+  inp.setAttribute("src",canvas_img(data,0))
+  //inp.addEventListener('click', function(){draw_set(data)})
+  document.getElementsByClassName('sampleForm')[0].appendChild(inp)
+
+
+  //option-----
+  var dot = document.createElement("div")
+  dot.classList.add("pop_child");
+
+  //rgb
+  console.log(bcol)
+  var rgb = ['rgb(255,0,0)','rgb(0,255,0)','rgb(0,0,255)']
+  var col = bcol.match(/\d+/g)
+  for (var i = 0; i < col.length; i++) {
+    var sli = Object.assign(document.createElement("input"),
+    {type:"range",classList:"color_set",name:i,min:"0",max:"255",step:"1",value:col[i]})
+    sli.style.backgroundColor=rgb[i]
+    sli.addEventListener("input",function(e){
+      col[this.name]=this.value
+      bcol=bcol.replace(/\((.+)\)/,'('+col.join(',')+')')
+      back_set=bcol
+      var inp = document.getElementsByClassName('pop_child')[0]
+      inp.setAttribute("src",canvas_img(data,0))
+    });
+
+    dot.appendChild(sli);
+  }
+  dot.appendChild(document.createElement("br"))
+  //plays
+  var butt = Object.assign(document.createElement("input"),{type:"button",value:"SAVE"})
+  butt.style.width = "50%"
+  butt.style.height = "30px"
+  butt.addEventListener('click', function(){
+    document.getElementById('pop_out').classList.add("pop_hide");
+    document.getElementById('pop_out').classList.remove("pop_in");
+    document.getElementById('pop_out').innerHTML = ""
+    cat=-1
+    drawing()
+    var can = document.getElementById("canvas");
+  	var a = document.createElement('a');
+  	a.href = canvas.toDataURL('image/png', 0.85);
+  	a.download = 'download.png';
+  	a.click()
+    cat=dog
+    drawing()
+    console.log(sel_path)
+    //localStorage.setItem('img',JSON.stringify({data:{path:[sel_path],bcol:rgbTo16(bcol)}]));
+    var get_yet = JSON.parse(localStorage.getItem('img'))
+    if (typeof get_yet.length == "undefined") {
+      localStorage.setItem('img',[JSON.stringify(
+        {data:sel_path,bcol:bcol})]);
+    }else{
+      get_yet = get_yet.push(JSON.stringify(
+        {data:sel_path,bcol:bcol}))
+      localStorage.setItem('img',get_yet);
+    }
+    alert('画像が保存されました。')
+    //draw_set(data)
+  })
+  dot.appendChild(butt);
 
   document.getElementsByClassName('sampleForm')[0].appendChild(dot)
 }
@@ -323,7 +408,7 @@ function draw_set(n){
       this.scrollTo(0,0);
     }
   }*/
-
+  /*
   var mode = document.createElement("input");
   mode.setAttribute("type","radio");
   mode.setAttribute("name","mode");
@@ -354,11 +439,58 @@ function draw_set(n){
   //mode.textContent="消しゴム"
   document.getElementById('option1').appendChild(mode);
   document.getElementById('option1').appendChild(lab);
+  */
+  var mode = document.createElement("input");
+  mode.setAttribute("type","button");
+  mode.setAttribute("id","home_0");
+  mode.addEventListener("click",function(){
+    var rr = window.confirm('保存されていない場合編集データは消去されます。\n編集を終了しますか？');
+    if (rr == true) {
+      select_set()
+    }
+  });
+
+  mode.style.display = "none"
+  var lab = document.createElement("label");
+  lab.setAttribute("for","home_0");
+  lab.setAttribute("class","mode");
+  lab.innerHTML = "終了"
+  //mode.textContent="編集"
+  document.getElementById('option1').appendChild(mode);
+  document.getElementById('option1').appendChild(lab);
+
+  mode = document.createElement("input");
+  mode.setAttribute("type","radio");
+  mode.setAttribute("name","mode");
+  mode.setAttribute("id","mode_0");
+  mode.setAttribute("value","0");
+  mode.setAttribute("checked","");
+  var lab = document.createElement("label");
+  lab.setAttribute("for","mode_0");
+  lab.setAttribute("class","mode");
+  lab.innerHTML = "編集"
+  //mode.textContent="編集"
+  document.getElementById('option1').appendChild(mode);
+  document.getElementById('option1').appendChild(lab);
+
+  mode = document.createElement("input");
+  mode.setAttribute("type","radio");
+  mode.setAttribute("name","mode");
+  mode.setAttribute("id","mode_1");
+  mode.setAttribute("value","1");
+  lab = document.createElement("label");
+  lab.setAttribute("for","mode_1");
+  lab.setAttribute("class","mode");
+  lab.innerHTML = "消しゴム"
+  //mode.textContent="消しゴム"
+  document.getElementById('option1').appendChild(mode);
+  document.getElementById('option1').appendChild(lab);
   //-----
   //var sli = Object.assign(document.createElement("input"),{
   var slitx = document.createElement("span");
   slitx.innerHTML = "マウスの大きさ："
   slitx.style.fontWeight = "bold";
+  slitx.setAttribute("class","moded");
   document.getElementById('option1').appendChild(slitx);
   var sli = document.createElement("input");
   sli.setAttribute("id","mouse_slide");
@@ -369,7 +501,8 @@ function draw_set(n){
   sli.setAttribute("max","50");
   sli.setAttribute("step","1");
   sli.addEventListener("input",mouse_sizes);
-  document.getElementById('option1').appendChild(sli);
+  slitx.appendChild(sli);
+  document.getElementById('option1').appendChild(slitx);
   //document.getElementById('mouse_slide').addEventListener('input', mouse_sizes)
   var col = document.createElement("input");
   col.setAttribute("type","color");
@@ -380,8 +513,10 @@ function draw_set(n){
 
   var save = document.createElement("input")
   save.setAttribute("type","button")
-  save.setAttribute("value","保存")
+  save.setAttribute("value","背景色・保存")
   save.addEventListener('click', function(){
+    save_pop({data:sel_path,bcol:bcol})
+    /*
     cat=-1
     drawing()
     var can = document.getElementById("canvas");
@@ -393,9 +528,24 @@ function draw_set(n){
     drawing()
     console.log(sel_path)
     //localStorage.setItem('img',JSON.stringify({data:{path:[sel_path],bcol:rgbTo16(bcol)}]));
-    localStorage.setItem('img',JSON.stringify(
-      {data:sel_path,bcol:bcol}));
-    console.log(JSON.parse(localStorage.getItem('img')))
+    var get_yet = JSON.parse(localStorage.getItem('img'))
+    if (typeof get_yet.length == "undefined") {
+      localStorage.setItem('img',[JSON.stringify(
+        {data:sel_path,bcol:bcol})]);
+    }else{
+      get_yet = get_yet.push(JSON.stringify(
+        {data:sel_path,bcol:bcol}))
+      localStorage.setItem('img',get_yet);
+    }*/
+
+
+
+    //console.log(JSON.parse(localStorage.getItem('img')).length)
+    /*if (typeof JSON.parse(localStorage.getItem('img')).length == "undefined") {
+      console.log("BAN")
+    }else{
+      console.log("success")
+    }*/
   })
   document.getElementById('option1').appendChild(save);
 

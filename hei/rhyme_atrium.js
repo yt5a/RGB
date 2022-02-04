@@ -741,12 +741,12 @@ function phone_e() {
 
 
 /*------------------------------------------------------------*/
-/*更新時
+  //更新時
   window.addEventListener("beforeunload", function (event) {
     event.preventDefault();
     event.returnValue = '';
   });
-  */
+
   // 初期化イベント
   //window.setTimeout(function(){reload()},10)
   //window.addEventListener('load',reload, false);
