@@ -253,6 +253,12 @@ function save_pop(data){
   dot.appendChild(butt);
 
   document.getElementsByClassName('sampleForm')[0].appendChild(dot)
+  canvas.width = width;
+  canvas.height = height;
+  pcanvas.width = width
+  pcanvas.height = height;
+  mcanvas.width = width;
+  mcanvas.height = height;
 }
 
 //mode_select----------------------------------------------------------------------
@@ -511,7 +517,25 @@ function draw_set(n){
   col.style.display = "none"
   document.getElementById('option1').appendChild(col);
 
-  var save = document.createElement("input")
+
+
+  var mode = document.createElement("input");
+  mode.setAttribute("type","button");
+  mode.setAttribute("id","save_0");
+  mode.addEventListener("click",function(){
+    save_pop({data:sel_path,bcol:bcol})
+  });
+
+  mode.style.display = "none"
+  var lab = document.createElement("label");
+  lab.setAttribute("for","save_0");
+  lab.setAttribute("class","mode");
+  lab.innerHTML = "背景色・保存"
+  //mode.textContent="編集"
+  document.getElementById('option1').appendChild(mode);
+  document.getElementById('option1').appendChild(lab);
+
+  /*var save = document.createElement("input")
   save.setAttribute("type","button")
   save.setAttribute("value","背景色・保存")
   save.addEventListener('click', function(){
@@ -546,8 +570,8 @@ function draw_set(n){
     }else{
       console.log("success")
     }*/
-  })
-  document.getElementById('option1').appendChild(save);
+  /*})
+  document.getElementById('option1').appendChild(save);*/
 
   //canvas_opthion
   /*
