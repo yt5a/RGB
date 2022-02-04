@@ -43,7 +43,7 @@ function select_set(){
   document.body.appendChild(pop_out);
 
   var jk = localStorage.getItem('img')
-  if(jk.match(/{/)){
+  if(String(jk).match(/{/)){
     if (jk instanceof Array == true) {
       if(JSON.parse(localStorage.getItem('img')).length>=11){
         localStorage.setItem('img',JSON.stringify(JSON.parse(localStorage.getItem('img')).slice(1)));
