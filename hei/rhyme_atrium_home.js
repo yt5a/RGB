@@ -248,7 +248,7 @@ function save_pop(data){
     //localStorage.setItem('img',JSON.stringify({data:{path:[sel_path],bcol:rgbTo16(bcol)}]));
     var jk = localStorage.getItem('img')
     console.log(jk)
-    if(jk.match(/{/)){
+    if(String(jk).match(/{/)){
       var get_yet = JSON.parse(localStorage.getItem('img'))
       if (get_yet instanceof Array == false) {
         localStorage.setItem('img',JSON.stringify([{data:sel_path,bcol:bcol}]));
