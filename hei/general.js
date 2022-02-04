@@ -3,7 +3,7 @@ function canvas_img(data,type){
     var path=data.data.map(function(v) {return [v.path,v.col]})
   }
   //canvas = document.getElementById('logo_ori');
-  canvas = document.createElement("canvas")
+  var canvas = document.createElement("canvas")
   canvas.width = 550 ;
   canvas.height = 550 ;
   var ctx = canvas.getContext('2d');
