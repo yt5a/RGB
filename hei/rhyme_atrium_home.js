@@ -42,6 +42,9 @@ function select_set(){
   //document.getElementById('option1').appendChild(pop_out);
   document.body.appendChild(pop_out);
 
+  if(JSON.parse(localStorage.getItem('img')).length>=11){
+    localStorage.setItem('img',JSON.stringify(JSON.parse(localStorage.getItem('img')).slice(1)));
+  }
   //------------------------------
   var select = document.createElement("div")
 
@@ -238,15 +241,24 @@ function save_pop(data){
     drawing()
     console.log(sel_path)
     //localStorage.setItem('img',JSON.stringify({data:{path:[sel_path],bcol:rgbTo16(bcol)}]));
-    var get_yet = JSON.parse(localStorage.getItem('img'))
-    if (get_yet instanceof Array == false) {
-      localStorage.setItem('img',[JSON.stringify(
-        {data:sel_path,bcol:bcol})]);
+    var jk = localStorage.getItem('img')
+    console.log(jk)
+    if(jk.match(/{/)){
+      var get_yet = JSON.parse(localStorage.getItem('img'))
+      if (get_yet instanceof Array == false) {
+        localStorage.setItem('img',JSON.stringify([{data:sel_path,bcol:bcol}]));
+        //console.log(JSON.parse(localStorage.getItem('img')))
+      }else{
+        get_yet = get_yet.concat({data:sel_path,bcol:bcol})
+        localStorage.setItem('img',JSON.stringify(get_yet));
+        console.log(localStorage.getItem('img'))
+      }
     }else{
-      get_yet = get_yet.push(JSON.stringify(
-        {data:sel_path,bcol:bcol}))
-      localStorage.setItem('img',get_yet);
+      localStorage.setItem('img',JSON.stringify([{data:sel_path,bcol:bcol}]));
     }
+    //localStorage.setItem('img',JSON.stringify([{data:sel_path,bcol:bcol},{data:sel_path,bcol:bcol}]));
+    //localStorage.setItem('img',JSON.stringify([{data:sel_path,bcol:bcol}]));
+    //console.log(get_yet.concat({data:sel_path,bcol:bcol}))
     alert('画像が保存されました。')
     //draw_set(data)
   })
@@ -473,8 +485,21 @@ function draw_set(n){
   mode.setAttribute("checked","");
   var lab = document.createElement("label");
   lab.setAttribute("for","mode_0");
-  lab.setAttribute("class","mode");
+  lab.setAttribute("class","mode modes");
+  lab.style.backgroundColor = "#778899"
   lab.innerHTML = "編集"
+  mode.addEventListener("change",function(){
+    console.log(1234)
+    var get = document.getElementsByName('mode')
+    var cla = document.getElementsByClassName('modes')
+    for (var i = 0; i < get.length; i++) {
+      if (get[i].checked) {
+        cla[i].style.backgroundColor = "#778899"
+      }else{
+        cla[i].style.backgroundColor = "#dcdcdc"
+      }
+    }
+  });
   //mode.textContent="編集"
   document.getElementById('option1').appendChild(mode);
   document.getElementById('option1').appendChild(lab);
@@ -486,8 +511,20 @@ function draw_set(n){
   mode.setAttribute("value","1");
   lab = document.createElement("label");
   lab.setAttribute("for","mode_1");
-  lab.setAttribute("class","mode");
+  lab.setAttribute("class","mode modes");
   lab.innerHTML = "消しゴム"
+  mode.addEventListener("change",function(){
+    console.log(1234)
+    var get = document.getElementsByName('mode')
+    var cla = document.getElementsByClassName('modes')
+    for (var i = 0; i < get.length; i++) {
+      if (get[i].checked) {
+        cla[i].style.backgroundColor = "#778899"
+      }else{
+        cla[i].style.backgroundColor = "#dcdcdc"
+      }
+    }
+  });
   //mode.textContent="消しゴム"
   document.getElementById('option1').appendChild(mode);
   document.getElementById('option1').appendChild(lab);

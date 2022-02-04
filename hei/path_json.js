@@ -24,18 +24,13 @@ if (localStorage.getItem('img')){
 }*/
 
 function setting(){
+  var get_yet = JSON.parse(localStorage.getItem('img'))
   if (localStorage.getItem('img')){
-    date_img = JSON.parse(localStorage.getItem('img'))
-    console.log(date_img)
-    //if (date_img.length>=1) {
-      return path.concat(date_img)
-    //}else{
-      return path
-    //}
+    console.log(path.concat(get_yet))
+    return path.concat(get_yet)
   }else{
     return path
   }
-  return path
 }
 
 
