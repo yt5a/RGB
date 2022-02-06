@@ -240,8 +240,8 @@ function save_pop(data){
     var can = document.getElementById("canvas");
   	var a = document.createElement('a');
   	a.href = canvas.toDataURL('image/png', 0.85);
-  	a.download = 'download.png';
-  	a.click()
+  	//a.download = 'download.png';
+  	//a.click()
     cat=dog
     drawing()
     console.log(sel_path)
