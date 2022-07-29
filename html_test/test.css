@@ -1,0 +1,39 @@
+body {
+  background-image:url("背景.jpg");
+  background-color:rgba(255,255,255,0.8);
+  /*background-blend-mode:hard-light;
+  /*background-size:cover;*/
+  background-size:100% auto;
+}
+
+.window{
+ position:absolute;
+ height:200px;
+ width:300px;
+ background-color:rgba(255,255,255,0.2);
+ background-size:100vw 100vh;
+ font-size:30px;
+}
+
+/*.window:hover{
+  background-image:none;
+  background-color:#ffffff;
+}*/
+.window::before{
+ content:"";
+ position:absolute;
+ display:inline-block;
+ height:30px;
+ width:300px;
+ background-color:rgba(0,0,0,0.3);
+ /*border:solid 2px #000000;*/
+}
+
+@keyframes blinkAnime{
+   0% {left:0px}
+ 100% {left:100px}
+}
+
+.win{
+  /*animation: blinkAnime 1s infinite alternate;*/
+}
